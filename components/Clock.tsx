@@ -44,6 +44,7 @@ const Clock: FC<ClockProps> = (props) => {
 		}
 		if (props.changeStateByButton) {
 			props.setChangeStateByButton(false);
+
 			if (intervID !== null) {
 				clearInterval(intervID);
 				setIntervID(null);
@@ -67,12 +68,10 @@ const Clock: FC<ClockProps> = (props) => {
 			setShowReset(true);
 			setResetAnimation(false);
 		} else {
-			if (intervID !== null) {
-				clearInterval(intervID);
-				setIntervID(null);
-				setTitle('Start');
-				setShowReset(false);
-			}
+			clearInterval(intervID);
+			setIntervID(null);
+			setTitle('Start');
+			setShowReset(false);
 		}
 	};
 	const resetHandler = () => {

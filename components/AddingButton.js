@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = require("react");
 var react_native_1 = require("react-native");
 var vector_icons_1 = require("@expo/vector-icons");
@@ -13,6 +13,7 @@ var AddingButton = function (props) {
     var _b = (0, react_1.useState)(''), text = _b[0], setText = _b[1];
     var rStyle = (0, ChangingColors_1.changeBackground)(props.current, '#35686c', '#954242');
     var showPopOut = function () {
+        setError(false);
         props.popOut ? props.setPopOut(false) : props.setPopOut(true);
     };
     var addTask = function () {
@@ -28,18 +29,18 @@ var AddingButton = function (props) {
     };
     return (<>
 			{props.popOut === false ? (<react_native_1.Pressable style={styles.OuterContainer} onPress={showPopOut}>
-					<react_native_reanimated_1["default"].View style={[styles.container, rStyle]}>
+					<react_native_reanimated_1.default.View style={[styles.container, rStyle]}>
 						<vector_icons_1.Ionicons color='white' size={24} name='add-circle'/>
 						<react_native_1.Text style={styles.text}>Add task</react_native_1.Text>
-					</react_native_reanimated_1["default"].View>
-				</react_native_1.Pressable>) : (<PopoutAdding_1["default"] text={text} setText={setText} error={error} addTask={addTask} showPopOut={showPopOut}/>)}
+					</react_native_reanimated_1.default.View>
+				</react_native_1.Pressable>) : (<PopoutAdding_1.default text={text} setText={setText} error={error} addTask={addTask} showPopOut={showPopOut}/>)}
 		</>);
 };
-exports["default"] = AddingButton;
+exports.default = AddingButton;
 var styles = react_native_1.StyleSheet.create({
     OuterContainer: {
         width: '70%',
-        height: 40
+        height: 40,
     },
     container: {
         flexDirection: 'row',
@@ -51,10 +52,10 @@ var styles = react_native_1.StyleSheet.create({
         borderWidth: 2,
         borderStyle: 'dashed',
         borderColor: 'white',
-        marginTop: 10
+        marginTop: 10,
     },
     text: {
         color: 'white',
-        fontSize: 24
-    }
+        fontSize: 24,
+    },
 });

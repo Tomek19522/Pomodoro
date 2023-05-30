@@ -1,72 +1,69 @@
 "use strict";
-var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var expo_status_bar_1 = require("expo-status-bar");
 var react_native_1 = require("react-native");
 var react_1 = require("react");
 var ShowTasks_1 = require("./components/ShowTasks");
-var AddTask_1 = require("./components/AddTask");
 var Clock_1 = require("./components/Clock");
+var AddingButton_1 = require("./components/AddingButton");
 var react_native_reanimated_1 = require("react-native-reanimated");
-var times = {
-    FOCUS_TIME: 10,
-    SHORT_BREAK_TIME: 5,
-    LONG_BREAK_TIME: 8,
-};
+var ChangingColors_1 = require("./animations/ChangingColors");
+var tasks_context_1 = require("./store/tasks-context");
+var NormalButton_1 = require("./components/NormalButton");
+var ChangeTimeModal_1 = require("./components/ChangeTimeModal");
+var vector_icons_1 = require("@expo/vector-icons");
+var react_native_keyboard_aware_scroll_view_1 = require("react-native-keyboard-aware-scroll-view");
+var width = react_native_1.Dimensions.get('window').width;
 function App() {
-    var _a = (0, react_1.useState)('light'), theme = _a[0], setTheme = _a[1];
-    var progress = (0, react_native_reanimated_1.useDerivedValue)(function () {
-        return theme === 'dark' ? (0, react_native_reanimated_1.withTiming)(1) : (0, react_native_reanimated_1.withTiming)(0);
-    }, [theme]);
-    var rStyle = (0, react_native_reanimated_1.useAnimatedStyle)(function () {
-        // const progress = useSharedValue(0);
-        var backgroundColor = (0, react_native_reanimated_1.interpolateColor)(progress.value, [0, 1], ['green', 'blue']);
-        return { backgroundColor: backgroundColor };
-    });
-    var _b = (0, react_1.useState)([]), tasks = _b[0], setTasks = _b[1];
+    var _a = (0, react_1.useState)({
+        FOCUS_TIME: 10,
+        SHORT_BREAK_TIME: 5,
+    }), times = _a[0], setTimes = _a[1];
+    var _b = (0, react_1.useState)(false), showModal = _b[0], setShowModal = _b[1];
     var _c = (0, react_1.useState)('focus'), currentState = _c[0], setCurrentState = _c[1];
-    var change = function () {
-        theme === 'dark' ? setTheme('light') : setTheme('dark');
-    };
-    var addTaskHanlder = function (task) {
-        setTasks(function (prevTask) { return __spreadArray(__spreadArray([], prevTask, true), [task], false); });
-    };
-    return (<react_native_1.View style={[
-            styles.container,
-            { backgroundColor: currentState === 'focus' ? '#ba4949' : '#38858a' },
-        ]}>
-			<react_native_1.Text>Przyciski -- do zrobienia</react_native_1.Text>
-			<react_native_1.Text style={styles.mainText}>Pomodoro</react_native_1.Text>
-			<react_native_1.Text>Loading bar -- do zrobienia</react_native_1.Text>
-			{/* <Svg style={styles.cos}>
-            <Rect
-                x='0'
-                y='0'
-                width='60'
-                height='30'
-                stroke='red'
-                strokeWidth='2'
-                fill='yellow'
-            />
-        </Svg> */}
-			<Clock_1.default times={times} current={currentState} changeState={setCurrentState}/>
-			<react_native_1.Text style={styles.text}>
-				{currentState === 'focus' ? 'Focus' : 'Break'} time!
-			</react_native_1.Text>
-			<ShowTasks_1.default tasks={tasks}/>
-			<AddTask_1.default onAdd={addTaskHanlder}/>
-			<react_native_reanimated_1.default.View style={[styles.edit, rStyle]}></react_native_reanimated_1.default.View>
-			<react_native_1.Button title='zmien' onPress={change}/>
+    var _d = (0, react_1.useState)(false), popOut = _d[0], setPopOut = _d[1];
+    var _e = (0, react_1.useState)(false), changeState = _e[0], setChangeState = _e[1];
+    var rStyle = (0, ChangingColors_1.changeBackground)(currentState, '#38858a', '#ba4949');
+    return (<>
+			<react_native_reanimated_1.default.View style={[styles.container, rStyle]}>
+				<react_native_keyboard_aware_scroll_view_1.KeyboardAwareScrollView contentContainerStyle={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+        }} keyboardShouldPersistTaps='handled' enableOnAndroid extraScrollHeight={210}>
+					<tasks_context_1.default>
+						<react_native_1.View style={styles.buttons}>
+							<NormalButton_1.default title='focus' onPress={function () {
+            setCurrentState('focus');
+            setChangeState(true);
+        }} style={currentState === 'focus'
+            ? { backgroundColor: '#934141' }
+            : { backgroundColor: '#38858a' }}/>
+							<NormalButton_1.default title='break' onPress={function () {
+            setCurrentState('shortBreak');
+            setChangeState(true);
+        }} style={currentState === 'focus'
+            ? { backgroundColor: '#ba4949' }
+            : { backgroundColor: '#255052' }}/>
+						</react_native_1.View>
+						<react_native_1.Text style={styles.mainText}>Pomodoro</react_native_1.Text>
+						<Clock_1.default times={times} current={currentState} changeState={setCurrentState} changeStateByButton={changeState} setChangeStateByButton={setChangeState}/>
+						<react_native_1.Text style={styles.text}>
+							{currentState === 'focus' ? 'Focus' : 'Break'} time!
+						</react_native_1.Text>
+						<ShowTasks_1.default current={currentState}/>
+
+						<AddingButton_1.default current={currentState} popOut={popOut} setPopOut={setPopOut}/>
+
+						<vector_icons_1.Ionicons name={showModal ? 'settings' : 'settings-outline'} color='white' size={40} style={styles.icon} onPress={function () {
+            setShowModal(true);
+        }}/>
+						<ChangeTimeModal_1.default show={showModal} setShow={setShowModal} current={currentState} setTimes={setTimes} changeState={setChangeState} style={styles.modal}/>
+					</tasks_context_1.default>
+				</react_native_keyboard_aware_scroll_view_1.KeyboardAwareScrollView>
+			</react_native_reanimated_1.default.View>
 			<expo_status_bar_1.StatusBar style='light'/>
-		</react_native_1.View>);
+		</>);
 }
 exports.default = App;
 var styles = react_native_1.StyleSheet.create({
@@ -74,6 +71,7 @@ var styles = react_native_1.StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+        position: 'relative',
     },
     mainText: {
         fontSize: 45,
@@ -85,10 +83,25 @@ var styles = react_native_1.StyleSheet.create({
         fontSize: 30,
         marginVertical: 10,
     },
-    cos: { backgroundColor: 'blue', width: '70%', height: 30 },
-    edit: {
-        width: 100,
-        height: 100,
+    buttons: {
+        justifyContent: 'space-evenly',
+        width: '100%',
+        flexDirection: 'row',
+    },
+    scroll: {
         backgroundColor: 'green',
+    },
+    icon: {
+        position: 'absolute',
+        top: 40,
+        right: 10,
+        padding: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    modal: {
+        position: 'absolute',
+        top: 100,
+        left: width / 2 - 150,
     },
 });

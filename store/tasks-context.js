@@ -8,7 +8,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.TasksContext = void 0;
 var react_1 = require("react");
 exports.TasksContext = (0, react_1.createContext)({
@@ -20,7 +20,7 @@ exports.TasksContext = (0, react_1.createContext)({
     changeCheck: function (id) { },
     getChecedValue: function (id) {
         return false;
-    }
+    },
 });
 var TasksContextProvider = function (_a) {
     var children = _a.children;
@@ -41,7 +41,7 @@ var TasksContextProvider = function (_a) {
     };
     var finishFocusTime = function () {
         setTaskList(function (currentTaskList) {
-            return currentTaskList.filter(function (task) { return task.checked !== true; });
+            return currentTaskList.filter(function (task) { return !task.checked; });
         });
     };
     var changeCheck = function (id) {
@@ -61,8 +61,8 @@ var TasksContextProvider = function (_a) {
         removeAllTasks: removeAllTasks,
         finishFocusTime: finishFocusTime,
         changeCheck: changeCheck,
-        getChecedValue: getChecedValue
+        getChecedValue: getChecedValue,
     };
     return (<exports.TasksContext.Provider value={value}>{children}</exports.TasksContext.Provider>);
 };
-exports["default"] = TasksContextProvider;
+exports.default = TasksContextProvider;

@@ -40,7 +40,7 @@ const TasksContextProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	};
 	const finishFocusTime = () => {
 		setTaskList((currentTaskList) =>
-			currentTaskList.filter((task) => task.checked !== true)
+			currentTaskList.filter((task) => !task.checked)
 		);
 	};
 	const changeCheck = (id: string) => {

@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = require("react");
 var react_native_1 = require("react-native");
 var CountingButton_1 = require("./CountingButton");
@@ -58,12 +58,10 @@ var Clock = function (props) {
             setResetAnimation(false);
         }
         else {
-            if (intervID !== null) {
-                clearInterval(intervID);
-                setIntervID(null);
-                setTitle('Start');
-                setShowReset(false);
-            }
+            clearInterval(intervID);
+            setIntervID(null);
+            setTitle('Start');
+            setShowReset(false);
         }
     };
     var resetHandler = function () {
@@ -73,8 +71,8 @@ var Clock = function (props) {
             : props.times.SHORT_BREAK_TIME);
         setResetAnimation(true);
     };
-    return (<react_native_reanimated_1["default"].View style={[styles.container, rStyle]}>
-			<LoadingBar_1["default"] time={time} current={props.current} isRunning={intervID} reset={resetAniamation}/>
+    return (<react_native_reanimated_1.default.View style={[styles.container, rStyle]}>
+			<LoadingBar_1.default time={time} current={props.current} isRunning={intervID} reset={resetAniamation}/>
 			<react_native_1.Text style={styles.mainText}>
 				{Math.floor(time / 60)
             .toString()
@@ -82,16 +80,16 @@ var Clock = function (props) {
 				:{(time % 60).toString().padStart(2, '0')}
 			</react_native_1.Text>
 			<react_native_1.View style={styles.buttonContainer}>
-				<react_native_reanimated_1["default"].View style={[styles.button, rStyle2]}>
-					<CountingButton_1["default"] title='reset' onClick={resetHandler} current={props.current}/>
-				</react_native_reanimated_1["default"].View>
-				<react_native_reanimated_1["default"].View style={[styles.button, rStyle3]}>
-					<CountingButton_1["default"] onClick={onStart} title={title} current={props.current} style={styles.button}/>
-				</react_native_reanimated_1["default"].View>
+				<react_native_reanimated_1.default.View style={[styles.button, rStyle2]}>
+					<CountingButton_1.default title='reset' onClick={resetHandler} current={props.current}/>
+				</react_native_reanimated_1.default.View>
+				<react_native_reanimated_1.default.View style={[styles.button, rStyle3]}>
+					<CountingButton_1.default onClick={onStart} title={title} current={props.current} style={styles.button}/>
+				</react_native_reanimated_1.default.View>
 			</react_native_1.View>
-		</react_native_reanimated_1["default"].View>);
+		</react_native_reanimated_1.default.View>);
 };
-exports["default"] = Clock;
+exports.default = Clock;
 var styles = react_native_1.StyleSheet.create({
     container: {
         width: '70%',
@@ -99,21 +97,21 @@ var styles = react_native_1.StyleSheet.create({
         borderRadius: 10,
         marginVertical: 20,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     mainText: {
         fontSize: 50,
-        color: '#ffffff'
+        color: '#ffffff',
     },
     buttonContainer: {
         marginTop: 25,
         width: '100%',
         height: 40,
-        position: 'relative'
+        position: 'relative',
     },
     button: {
         position: 'absolute',
         top: 0,
-        left: 0
-    }
+        left: 0,
+    },
 });

@@ -16,6 +16,7 @@ const AddingButton: FC<AddingButtonProps> = (props) => {
 	const [text, setText] = useState<string>('');
 	const rStyle = changeBackground(props.current, '#35686c', '#954242');
 	const showPopOut = () => {
+		setError(false);
 		props.popOut ? props.setPopOut(false) : props.setPopOut(true);
 	};
 	const addTask = () => {
